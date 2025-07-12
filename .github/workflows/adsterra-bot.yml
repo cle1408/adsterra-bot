@@ -24,7 +24,7 @@ jobs:
       run: |
         # Crée explicitement un fichier de log
         echo "Début de l'exécution à $(date)" > bot.log
-        python visite_2.py >> bot.log 2>&1
+        python script_2.py >> bot.log 2>&1
         echo "Fin de l'exécution à $(date)" >> bot.log
         
     - name: Show logs in console
