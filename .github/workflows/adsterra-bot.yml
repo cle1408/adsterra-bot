@@ -8,6 +8,7 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -18,13 +19,12 @@ jobs:
         python-version: '3.10'
         
     - name: Install dependencies
-      run: pip install requests
+      run: pip install requests beautifulsoup4  # Ajout de beautifulsoup4
       
     - name: Run Adsterra Bot
       run: |
-        # Crée explicitement un fichier de log
         echo "Début de l'exécution à $(date)" > bot.log
-        python script_2.py >> bot.log 2>&1
+        python ./script_2.py >> bot.log 2>&1
         echo "Fin de l'exécution à $(date)" >> bot.log
         
     - name: Show logs in console
