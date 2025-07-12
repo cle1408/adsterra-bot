@@ -3,12 +3,11 @@ name: Adsterra Bot
 on:
   schedule:
     - cron: '*/15 * * * *'  # Toutes les 15 minutes
-  workflow_dispatch:         # Permet un lancement manuel
+  workflow_dispatch:
 
 jobs:
   run-bot:
-    runs-on: ubuntu-latest   # Environnement d'exécution
-    
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -22,13 +21,19 @@ jobs:
       run: pip install requests
       
     - name: Run Adsterra Bot
-      run: python visite_2.py
+      run: |
+        # Crée explicitement un fichier de log
+        echo "Début de l'exécution à $(date)" > bot.log
+        python visite_2.py >> bot.log 2>&1
+        echo "Fin de l'exécution à $(date)" >> bot.log
+        
+    - name: Show logs in console
+      run: cat bot.log
       
     - name: Save logs
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: bot-logs-${{ github.run_id }}-${{ github.run_attempt }}
-        path: |
-          *.log
+        name: bot-logs-${{ github.run_id }}
+        path: bot.log
         retention-days: 7
